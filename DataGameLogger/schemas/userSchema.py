@@ -5,12 +5,14 @@ from .boardGameSchema import BoardGameBase
 class UserBase(BaseModel):
     username: str
 
-class UserLogin(BaseModel):
-    username: str
+class UserLogin(UserBase):
     password: str
 
 class UserRegister(UserLogin):
     email: str
 
-class UserCollection(BaseModel):
+class UserResponse(UserBase):
+    id: int
+
+class UserCollection(UserResponse):
     collection: List[BoardGameBase]
