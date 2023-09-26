@@ -4,8 +4,8 @@ from routers import userRouter, boardGameRouter
 
 app = FastAPI()
 
-app.include_router(userRouter)
-app.include_router(boardGameRouter)
+app.include_router(userRouter.router)
+app.include_router(boardGameRouter.router)
 
 @app.get("/")
 def main():

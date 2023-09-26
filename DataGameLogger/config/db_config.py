@@ -6,8 +6,9 @@ from sqlalchemy.orm import sessionmaker
 database_name = "DataGameLogger"
 user = "postgres"
 password = "postgres"
+db_url = f"postgresql+psycopg2://{user}:{password}@localhost/{database_name}"
 
-engine = create_engine(f"postgresql+psycopg2://{user}:{password}@localhost/{database_name}")
+engine = create_engine(db_url)
 
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
