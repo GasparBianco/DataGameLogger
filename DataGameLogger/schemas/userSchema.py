@@ -1,6 +1,6 @@
 from pydantic import BaseModel
 from typing import List, Optional
-from .boardGameSchema import BoardGameBase
+from .boardGameSchema import BoardGameResponse
 
 class UserBase(BaseModel):
     username: str
@@ -18,4 +18,4 @@ class UserResponse(UserBase):
     id: int
 
 class UserCollection(UserResponse):
-    collection: List[BoardGameBase]
+    collection: List[BoardGameResponse]

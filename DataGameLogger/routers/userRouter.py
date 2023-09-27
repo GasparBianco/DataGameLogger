@@ -22,3 +22,10 @@ async def registerUser(user_data: UserRegister, db: Session = Depends(get_db)):
     db.commit()
     db.refresh(new_user)
     return new_user
+
+@router.get("/collection/{id}", response_model=UserCollection, status_code=status.HTTP_200_OK)
+async def getIngredientPage(id: int, db: Session = Depends(get_db)):
+    user = db.query(User).filter(User.id == id).first()
+    if user is None:
+        raise HTTPException(status_code=404, detail="User not found")
+    return user
