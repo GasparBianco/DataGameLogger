@@ -10,8 +10,8 @@ router = APIRouter(prefix="/boardgame",
                     tags=["boardGame"],
                     responses={404: {"message": "No encontrado"}})
 
-@router.post("/add/", response_model=BoardGame, status_code=status.HTTP_201_CREATED)
-async def addBoardGameToCollection(data: BoardGame, db: Session = Depends(get_db)):
+@router.post("/add/", response_model=BoardGameResponse, status_code=status.HTTP_201_CREATED)
+async def addBoardGameToCollection(data: BoardGameCreate, db: Session = Depends(get_db)):
     
     new_boardGame = UserBoardGameCollection(
                     id_bgg = data.id_bgg,
