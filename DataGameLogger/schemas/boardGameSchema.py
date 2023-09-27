@@ -5,6 +5,6 @@ class BoardGameBase(BaseModel):
     value: str
     id_bgg: int
 
-class BoardGameAdd(BoardGameBase):
+class BoardGame(BoardGameBase):
 
     id_user: int
