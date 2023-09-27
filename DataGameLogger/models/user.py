@@ -6,8 +6,8 @@ from sqlalchemy.orm import relationship
 
 class User(Base):
     __tablename__ = "user"
-    id = Column(Integer, primary_key=True, index=True)
-    username = Column(String(255))
-    password = Column(String(255))
-    email = Column(String(255))
-    collection = relationship('UserBoardGameCollection', backref='collection', cascade="all, delete-orphan")
+    id = Column(Integer, primary_key=True, index=True, autoincrement=True)
+    username = Column(String(255), nullable=False)
+    password = Column(String(255), nullable=False)
+    email = Column(String(255), nullable=False)
+    collection = relationship('UserBoardGameCollection',back_populates="user", cascade="all, delete-orphan")
