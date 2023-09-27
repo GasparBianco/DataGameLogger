@@ -23,3 +23,13 @@ async def addBoardGameToCollection(data: BoardGame, db: Session = Depends(get_db
     db.commit()
     db.refresh(new_boardGame)
     return new_boardGame
+
+@router.delete("/delete/{id}", status_code=status.HTTP_200_OK)
+def deleteBoardGameById(id: int, db: Session = Depends(get_db)):
+    board_game = db.query(UserBoardGameCollection).filter(UserBoardGameCollection.id == id).first()
+    if board_game is None:
+        raise HTTPException(status_code=404, detail="BoardGame not found")
+    
+    db.delete(board_game)
+    db.commit()
+    return {"detail": "BoardGame deleted successfully"}

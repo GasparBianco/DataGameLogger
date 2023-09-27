@@ -5,6 +5,9 @@ from .boardGameSchema import BoardGameBase
 class UserBase(BaseModel):
     username: str
 
+    class Config():
+        from_attributes = True
+
 class UserLogin(UserBase):
     password: str
 
