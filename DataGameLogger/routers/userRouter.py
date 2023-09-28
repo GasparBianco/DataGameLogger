@@ -3,6 +3,7 @@ from models.user import User
 from schemas.userSchema import *
 from config.db_config import *
 from sqlalchemy.orm import Session
+from validations.usuerValidations import userRegisterValidations
 
 
 
@@ -13,6 +14,8 @@ router = APIRouter(prefix="/user",
 @router.post("/register/", response_model= UserResponse, status_code=status.HTTP_201_CREATED)
 async def registerUser(user_data: UserRegister, db: Session = Depends(get_db)):
     
+    userRegisterValidations(user_data, db)
+
     new_user = User(
                     username = user_data.username,
                     email = user_data.email,
