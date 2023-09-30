@@ -20,6 +20,7 @@ if config.config_file_name is not None:
 # target_metadata = mymodel.Base.metadata
 from models.boardgame import UserBoardGameCollection
 from models.user import User
+from models.friends import Friends
 from config.db_config import Base
 target_metadata = Base.metadata
 
