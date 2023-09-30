@@ -33,7 +33,7 @@ async def auth_user(db: Session = Depends(get_db), token: str = Depends(oauth2))
     return db.query(User).filter(User.username == username).first()
 
 
-async def current_user(user: UserResponse = Depends(auth_user)):
+async def current_user(user: User = Depends(auth_user)):
     return user
 
 
