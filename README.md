@@ -1,1 +1,0 @@
-Proyecto: API de registro de juegos de mesa.
