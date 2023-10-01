@@ -18,11 +18,12 @@ class UserLogin(UserBase):
 class UserRegister(UserLogin):
     email: str
 
-class UserResponse(UserId, UserBase):
-    pass
+class UserResponse(BaseModel):
+    id: int
+    username: str
 
 class UserCollection(UserResponse):
     collection: List[BoardGameResponse]
 
-class UserFriends2(BaseModel):
+class UserFriends(BaseModel):
     friends: List[UserResponse]
