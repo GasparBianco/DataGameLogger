@@ -8,10 +8,5 @@ class BoardGameBase(BaseModel):
     class Config():
         from_attributes = True
 
-class BoardGameCreate(BoardGameBase):
-
-    id_user: int
-
-
 class BoardGameResponse(BoardGameBase):
     id: int

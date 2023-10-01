@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Depends, HTTPException, status
+from fastapi import APIRouter, Depends, HTTPException, status, Response
 from jose import JWTError, jwt
 from datetime import datetime, timedelta
 from config.db_config import *
@@ -7,6 +7,9 @@ from validations.usuerValidations import loginValidations, userRegisterValidatio
 from schemas.userSchema import *
 from models.user import User
 from config.auth_config import *
+from schemas.customResponsesSchemas import *
+from fastapi.responses import JSONResponse
+
 
 
 router = APIRouter(prefix="/auth",
@@ -37,7 +40,10 @@ async def current_user(user: User = Depends(auth_user)):
     return user
 
 
-@router.post("/login/")
+@router.post("/login/",responses={
+                                    400: {"model": defaultResponse},
+                                    200: {"model": AuthTokenResponse}
+})
 async def login(form: OAuth2PasswordRequestForm = Depends(), db: Session = Depends(get_db)):
     
     loginValidations(form, db)
@@ -45,11 +51,18 @@ async def login(form: OAuth2PasswordRequestForm = Depends(), db: Session = Depen
     access_token = {
                     "sub": form.username,
                     "exp": datetime.utcnow() + timedelta(weeks=ACCESS_TOKEN_DURATION)}
+    
+    response = {"access_token": jwt.encode(access_token, SECRET, algorithm=ALGORITHM),
+                "token_type": "bearer"}
+    
+    return response
 
-    return {"access_token": jwt.encode(access_token, SECRET, algorithm=ALGORITHM), "token_type": "bearer"}
 
-@router.post("/register/", response_model= UserResponse, status_code=status.HTTP_201_CREATED)
-async def registerUser(user_data: UserRegister, db: Session = Depends(get_db)):
+@router.post("/register/",response_model=UserResponse, responses={
+                                        400: {"model": defaultResponse},
+                                        201: {"model": UserResponse}
+})
+async def registerUser(user_data: UserRegister, response: Response, db: Session = Depends(get_db)):
     
     userRegisterValidations(user_data, db)
 
@@ -63,8 +76,6 @@ async def registerUser(user_data: UserRegister, db: Session = Depends(get_db)):
     db.add(new_user)
     db.commit()
     db.refresh(new_user)
-    return new_user
 
-@router.get("/me/", response_model=UserBase)
-async def me(user: User = Depends(current_user)):
-    return user
+    response.status_code = status.HTTP_201_CREATED
+    return new_user
