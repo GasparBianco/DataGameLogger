@@ -17,8 +17,8 @@ router = APIRouter(prefix="/friends",
                                     201: {"model": defaultResponse},
                                     404: {"model": defaultResponse},
 })
-async def postAddFriend(id_friend: UserId, user: User = Depends(current_user), db: Session = Depends(get_db)):
-    friend = db.query(User).filter(User.id == id_friend.id).first()
+async def postAddFriend(id_friend: int, user: User = Depends(current_user), db: Session = Depends(get_db)):
+    friend = db.query(User).filter(User.id == id_friend).first()
     if friend is None:
         raise HTTPException(status_code=404, detail="User not found")
     
