@@ -3,7 +3,7 @@ from jose import JWTError, jwt
 from datetime import datetime, timedelta
 from config.db_config import *
 from sqlalchemy.orm import Session
-from validations.usuerValidations import loginValidations, userRegisterValidations
+from validations.userValidations import loginValidations, userRegisterValidations
 from schemas.userSchema import *
 from models.user import User
 from config.auth_config import *
