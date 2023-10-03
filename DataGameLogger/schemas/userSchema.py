@@ -26,7 +26,7 @@ class UserRegister(UserLogin):
                         pattern=r"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$"
     )
 
-class UserResponse(UserBase):
+class UserResponse(UserBase, UserId):
     pass
 
 class UserCollection(UserResponse):

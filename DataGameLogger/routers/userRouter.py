@@ -3,7 +3,7 @@ from models.user import User
 from schemas.userSchema import *
 from config.db_config import *
 from sqlalchemy.orm import Session
-from validations.usuerValidations import userRegisterValidations
+from validations.userValidations import userRegisterValidations
 from .authRouter import current_user
 from models.friends import Friends
 from schemas.customResponsesSchemas import *

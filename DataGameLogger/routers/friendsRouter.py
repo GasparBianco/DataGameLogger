@@ -7,7 +7,7 @@ from models.friends import Friends
 from schemas.userSchema import UserId
 from schemas.customResponsesSchemas import *
 from fastapi.responses import JSONResponse
-
+from sqlalchemy import and_
 
 router = APIRouter(prefix="/friends",
                     tags=["friends"],
@@ -34,14 +34,16 @@ async def postAddFriend(id_friend: int, user: User = Depends(current_user), db: 
     response = {"detail": "Friend added successfully"}
     return JSONResponse(status_code=status.HTTP_201_CREATED, content=response)
 
-@router.delete("/delete/{id}", responses={
+@router.delete("/delete/{id_friend}", responses={
                                             200: {"model": defaultResponse},
-                                            404: {"model": defaultResponse}
+                                            404: {"model": defaultResponse},
+                                            401: {"model": defaultResponse}
 })
-def deleteFriendById(id: int, user: UserId = Depends(current_user), db: Session = Depends(get_db)):
+def deleteFriendById(id_friend: int, user: UserId = Depends(current_user), db: Session = Depends(get_db)):
 
-    friend = db.query(Friends).filter(Friends.id == id).first()
-    
+    friend = db.query(Friends).filter(and_(Friends.id_friend == user.id, Friends.id_user == id_friend)).first()    
+    if friend is None:
+        friend = db.query(Friends).filter(and_(Friends.id_user == user.id, Friends.id_friend == id_friend)).first()
     if friend is None:
         raise HTTPException(status_code=404, detail="Friend not found")
     
