@@ -27,10 +27,24 @@ class UserRegister(UserLogin):
     )
 
 class UserResponse(UserBase, UserId):
-    pass
+    email: str
 
 class UserCollection(UserResponse):
     collection: List[BoardGameResponse]
 
-class UserFriends(BaseModel):
+class UserFriends(UserResponse):
     friends: List[UserResponse]
+
+
+class UserLoginResponse(BaseModel):
+    id: int
+    username: str
+    email: str
+    collection: List[BoardGameResponse]
+    friends: List[UserResponse]
+    class Config():
+        from_attributes = True
+
+class UserAllData(BaseModel):
+    user: UserLoginResponse
+    acces_token: str
