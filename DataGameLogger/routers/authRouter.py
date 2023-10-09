@@ -40,9 +40,9 @@ async def current_user(user: User = Depends(auth_user)):
     return user
 
 
-@router.post("/login/",responses={
+@router.post("/login/",response_model=UserAllData,responses={
                                     400: {"model": defaultResponse},
-                                    200: {"model": AuthTokenResponse}
+                                    200: {"model": UserAllData}
 })
 async def login(form: OAuth2PasswordRequestForm = Depends(), db: Session = Depends(get_db)):
     
@@ -52,10 +52,10 @@ async def login(form: OAuth2PasswordRequestForm = Depends(), db: Session = Depen
                     "sub": form.username,
                     "exp": datetime.utcnow() + timedelta(weeks=ACCESS_TOKEN_DURATION)}
     
-    response = {"access_token": jwt.encode(access_token, SECRET, algorithm=ALGORITHM),
-                "token_type": "bearer"}
-    
-    return response
+    user = db.query(User).filter(User.username == form.username).first()
+
+
+    return {"user": user, "acces_token": jwt.encode(access_token, SECRET, algorithm=ALGORITHM)}
 
 
 @router.post("/register/",response_model=UserResponse, responses={
