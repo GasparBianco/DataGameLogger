@@ -32,7 +32,7 @@ class UserResponse(UserBase, UserId):
 class UserCollection(UserResponse):
     collection: List[BoardGameResponse]
 
-class UserFriends(UserResponse):
+class UserFriends(BaseModel):
     friends: List[UserResponse]
 
 

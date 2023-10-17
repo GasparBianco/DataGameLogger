@@ -33,9 +33,8 @@ async def getUserCollection(user: User = Depends(current_user), db: Session = De
 async def getUserFriends(user: UserId = Depends(current_user), db: Session = Depends(get_db)):
     user_list = db.query(Friends).filter(Friends.id_user == user.id).all()
     id_list = [friend.id_friend for friend in user_list]
-    user_list.extend(db.query(Friends).filter(Friends.id_friend == user.id).all())
+    user_list = (db.query(Friends).filter(Friends.id_friend == user.id).all())
     id_list.extend([friend.id_user for friend in user_list])
-    id_list = [x for x in id_list if x != user.id]
     friends_list = db.query(User).filter(User.id.in_(id_list)).all()
     
     return {"friends": friends_list}
