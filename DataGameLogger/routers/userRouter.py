@@ -1,7 +1,7 @@
 from fastapi import APIRouter, HTTPException, Depends, status
 from models.user import User
 from schemas.userSchema import *
-from config.db_config import *
+from models.db_config import *
 from sqlalchemy.orm import Session
 from validations.userValidations import userRegisterValidations
 from .authRouter import current_user

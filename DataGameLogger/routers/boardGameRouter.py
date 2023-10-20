@@ -1,7 +1,7 @@
 from fastapi import APIRouter, HTTPException, Depends, status, Response
 from models.boardgame import UserBoardGameCollection
 from schemas.boardGameSchema import *
-from config.db_config import *
+from models.db_config import *
 from sqlalchemy.orm import Session
 from .authRouter import current_user
 from schemas.userSchema import UserId
