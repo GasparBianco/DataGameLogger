@@ -1,10 +1,7 @@
-from fastapi.testclient import TestClient
+from .config import client
 
-from DataGameLogger.main import app
-
-client = TestClient(app)
 
 
 def test_read_main():
-    response = client.get("/")
+    response = client.get("/auth/register")
     assert response.status_code == 200
