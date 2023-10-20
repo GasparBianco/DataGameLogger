@@ -10,10 +10,6 @@ app.include_router(boardGameRouter.router)
 app.include_router(authRouter.router)
 app.include_router(friendsRouter.router)
 
-@app.get("/test")
-def main():
-    return Base.metadata
-
 @app.get("/")
 def main():
     return RedirectResponse(url="/docs/")
