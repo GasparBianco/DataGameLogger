@@ -7,7 +7,6 @@ from sqlalchemy.orm import sessionmaker
 from main import app
 from fastapi.testclient import TestClient
 import pytest
-from databases import Database
 
 database_name = "DataGameLogger_Test"
 user = "postgres"
@@ -32,3 +31,23 @@ client = TestClient(app)
 
 
 Base.metadata.create_all(bind=engine)
+
+@pytest.fixture(scope="session", autouse=True)
+def clean_database():
+    db = TestingSessionLocal()
+    trans = db.begin()
+    
+    try:
+        Base.metadata.drop_all(bind=engine)
+        Base.metadata.create_all(bind=engine)
+        
+        trans.commit()
+    except:
+        trans.rollback()
+        raise
+    finally:
+        db.close()
+
+def test_read_main():
+    response = client.get("/")
+    assert response.status_code == 200

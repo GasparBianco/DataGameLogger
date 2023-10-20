@@ -1,4 +1,4 @@
-from .config import client
+from .test_config import client
 
 def test_register_new_user_succed():
     response = client.post(
