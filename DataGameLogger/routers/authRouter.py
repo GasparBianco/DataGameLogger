@@ -1,7 +1,7 @@
 from fastapi import APIRouter, Depends, HTTPException, status, Response
 from jose import JWTError, jwt
 from datetime import datetime, timedelta
-from config.db_config import *
+from models.db_config import *
 from sqlalchemy.orm import Session
 from validations.userValidations import loginValidations, userRegisterValidations
 from schemas.userSchema import *
