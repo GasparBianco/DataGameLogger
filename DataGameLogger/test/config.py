@@ -6,6 +6,8 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from main import app
 from fastapi.testclient import TestClient
+import pytest
+from databases import Database
 
 database_name = "DataGameLogger_Test"
 user = "postgres"
